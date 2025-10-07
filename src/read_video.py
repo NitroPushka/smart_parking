@@ -1,7 +1,7 @@
 import cv2
 import time
 
-camera = cv2.VideoCapture("http://94.72.19.56/mjpg/video.mjpg")
+camera = cv2.VideoCapture("http://www.insecam.org/ru/view/1005236/")
 time.sleep(2)
 if not camera.isOpened():
     print("Could not open camera")

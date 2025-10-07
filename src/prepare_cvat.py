@@ -6,8 +6,8 @@ output_dir = "C:/Users/ilyap/PycharmProjects/smart_parking/data/cvat_images"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-count_pictures = 5
-saved_intervals = 2
+count_pictures = 20
+saved_intervals = 10
 
 fps = camera.get(cv2.CAP_PROP_FPS)
 saved_count = 0
@@ -20,7 +20,7 @@ while camera.isOpened() and saved_count < count_pictures:
         break
     # если каждый кадр делится на 60й кадр без остатка
     if frame_count % int(fps * saved_intervals) == 0:
-        filename = f"cvat_parking_{frame_count}.jpg"
+        filename = f"evening_parking_{frame_count}.jpg"
         cv2.imwrite(os.path.join(output_dir, filename), frame)
         print(f"Saved {filename}")
 
