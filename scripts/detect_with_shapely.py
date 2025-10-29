@@ -43,6 +43,55 @@ class ShapelyDetectionProcessor(VideoProcessor):
                 self.parking_polygons[img_id].append(points)
                 # Добавляет текущий полигон (points) в список полигонов для этого изображения
 
+    def draw_detections(self, frame, detections_info):
+        """Отрисовывает bounding boxes и confidence для обнаруженных машин"""
+        for detection in detections_info:
+            bbox = detection['bbox']
+            confidence = detection['confidence']
+            class_name = detection['class_name']
+            in_roi = detection['in_roi']
+
+            x1, y1, x2, y2 = bbox
+            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+
+            # Разные цвета для машин в ROI и вне ROI
+            if in_roi:
+                color = (255, 0, 0)  # Синий для машин в ROI
+            else:
+                color = (0, 165, 255)  # Оранжевый для машин вне ROI
+
+            # Рисуем bounding box
+            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+
+            # Подготовка текста с confidence
+            conf_text = f"{confidence:.2f}"
+            label = f"{class_name} {conf_text}"
+
+            # Размер текста для background
+            (text_width, text_height), baseline = cv2.getTextSize(
+                label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1
+            )
+
+            # Рисуем подложку для текста
+            cv2.rectangle(
+                frame,
+                (x1, y1 - text_height - baseline - 5),
+                (x1 + text_width, y1),
+                color,
+                -1
+            )
+
+            # Рисуем текст
+            cv2.putText(
+                frame,
+                label,
+                (x1, y1 - baseline - 5),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (255, 255, 255),
+                1,
+            )
+
     def process_frame(self, frame):
         display_frame = frame.copy()
         high, width = frame.shape[:2]
@@ -66,8 +115,11 @@ class ShapelyDetectionProcessor(VideoProcessor):
             2,
         )
 
-        car_boxes, vehicle_in_roi = self.detector.detect_vehicles(frame)
-        #   print(results.boxes)
+        # Получаем детекции машин с дополнительной информацией
+        car_boxes, vehicle_in_roi, detections_info = self.detector.detect_vehicles(frame)
+
+        # Отрисовываем bounding boxes с confidence
+        self.draw_detections(display_frame, detections_info)
 
         free_spots = 0
         total_spots = 0
@@ -87,9 +139,9 @@ class ShapelyDetectionProcessor(VideoProcessor):
                     intersection_area = parking_poly.intersection(car_box).area
 
                     if (
-                        intersection_area
-                        > min(parking_poly.area, car_box.area)
-                        * Config.CLASSIFICATION_CONFIDENCE_THRESHOLD
+                            intersection_area
+                            > min(parking_poly.area, car_box.area)
+                            * Config.CLASSIFICATION_CONFIDENCE_THRESHOLD
                     ):
                         occupied = True
                         break
@@ -105,7 +157,7 @@ class ShapelyDetectionProcessor(VideoProcessor):
                     free_spots += 1
 
                 # Рисуем контур полигона
-                cv2.polylines(display_frame, [pts_array], True, color, 1)
+                cv2.polylines(display_frame, [pts_array], True, color, 2)
 
                 # cv2.putText(display_frame, status_text,
                 #            (pts_array[0][0], pts_array[0][1] - 5),
@@ -119,7 +171,7 @@ class ShapelyDetectionProcessor(VideoProcessor):
                 cv2.FONT_HERSHEY_SIMPLEX,
                 1,
                 (255, 255, 255),
-                1,
+                2,
             )
 
         roi_info = f"Vehicle: {vehicle_in_roi}"
@@ -132,9 +184,9 @@ class ShapelyDetectionProcessor(VideoProcessor):
             roi_info,
             (30, 120),
             cv2.FONT_HERSHEY_SIMPLEX,
-            0.4,
+            0.7,
             (0, 255, 0),
-            1,
+            2,
         )
 
         print("=" * 50)

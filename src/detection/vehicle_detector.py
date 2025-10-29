@@ -1,7 +1,6 @@
 from shapely.geometry import box
 from ultralytics import YOLO
 
-
 class VehicleDetector:
     def __init__(self, model_path):
         self.model = YOLO(model_path)
@@ -25,6 +24,7 @@ class VehicleDetector:
 
         car_boxes = []
         vehicle_in_roi = 0
+        detections_info = []  # Новая переменная для хранения информации о детекциях
 
         if results.boxes is not None and len(results.boxes) > 0:
             roi_x, roi_y, roi_x2, roi_y2 = self._calculate_roi(frame.shape)
@@ -56,4 +56,12 @@ class VehicleDetector:
 
                         vehicle_in_roi += 1
 
-        return car_boxes, vehicle_in_roi
+                    # Сохраняем информацию о всех детекциях для отрисовки
+                    detections_info.append({
+                        'bbox': [x1, y1, x2, y2],
+                        'confidence': conf,
+                        'class_name': label,
+                        'in_roi': in_roi
+                    })
+
+        return car_boxes, vehicle_in_roi, detections_info

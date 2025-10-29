@@ -111,8 +111,8 @@ class ClassifierLiveProcessor(VideoProcessor):
                     continue
             print("=" * 50)
 
-        # Детекция транспорта
-        car_boxes, vehicle_in_roi = self.yolo_model.detect_vehicles(frame)
+        # Детекция транспорта (обновлено для совместимости)
+        car_boxes, vehicle_in_roi, _ = self.yolo_model.detect_vehicles(frame)
 
         # статистика
         car_count = sum(1 for box in car_boxes)
