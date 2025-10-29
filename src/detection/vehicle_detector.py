@@ -1,5 +1,3 @@
-import cv2
-import numpy as np
 from shapely.geometry import box
 from ultralytics import YOLO
 

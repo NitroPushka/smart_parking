@@ -23,4 +23,4 @@ class Config:
     DETECTION_IOU = 0.4
 
     # Настройки классификации
-    CLASSIFICATION_CONFIDENCE_THRESHOLD = 0.6
+    CLASSIFICATION_CONFIDENCE_THRESHOLD = 0.65
