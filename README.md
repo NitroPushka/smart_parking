@@ -61,9 +61,9 @@ smart_parking/
 ```
 ## Быстрый старт
 
-### 1. Обучение моделей
+### 1. Обучение моделей (опционально)
 
-#### Для начала работы необходимо обучить модели в папке scripts/learning/:
+#### При необходимости - обучить модели в папке scripts/learning/:
 
 ```bash
 python scripts/learning/learning_classifier.py
