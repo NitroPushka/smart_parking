@@ -188,20 +188,13 @@ class ShapelyDetectionProcessor(VideoProcessor):
             (0, 255, 0),
             2,
         )
-
-        print("=" * 50)
-        print(roi_info)
-        print(roi_zone)
-        print(roi_occup)
-        print(errors)
-        print("=" * 50)
-
         return display_frame
 
 
 def main():
     """Основная функция запуска детекции"""
     try:
+        print("Запуск видеопотока ... \n Нажмите 'esc' для выхода")
         processor = ShapelyDetectionProcessor()
         processor.run()
     except Exception as e:

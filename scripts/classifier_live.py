@@ -5,14 +5,14 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import sys
 import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
 from src.classification.parking_classifier import ParkingClassifier
 from src.detection.vehicle_detector import VehicleDetector
 from src.geometry.polygon_manager import PolygonManager
 from src.utils.config import Config
 from src.utils.video_process import VideoProcessor
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
 
 class ClassifierLiveProcessor(VideoProcessor):
     def __init__(self):
@@ -45,8 +45,6 @@ class ClassifierLiveProcessor(VideoProcessor):
                 ToTensorV2(),
             ]
         )
-
-        print("Запуск классификации === 'q' для выхода")
 
     def process_frame(self, frame):
         display_frame = frame.copy()
@@ -104,12 +102,10 @@ class ClassifierLiveProcessor(VideoProcessor):
                         color,
                         1,
                     )
-                    print(label)
 
                 except Exception as e:
                     print(f"Ошибка обработки парковочного места {i + 1}: {e}")
                     continue
-            print("=" * 50)
 
         # Детекция транспорта (обновлено для совместимости)
         car_boxes, vehicle_in_roi, _ = self.yolo_model.detect_vehicles(frame)
@@ -142,6 +138,8 @@ class ClassifierLiveProcessor(VideoProcessor):
 def main():
     """Основная функция запуска классификации"""
     try:
+        print("Запуск классификации ... \n Нажмите 'esc' для выхода")
+
         processor = ClassifierLiveProcessor()
         processor.run()
     except Exception as e:

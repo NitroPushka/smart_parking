@@ -29,11 +29,10 @@ class VideoProcessor:
                 if not ret:
                     print("Ошибка чтения видеопотока")
                     break
-
                 processed_frame = self.process_frame(frame)
                 cv2.imshow(self.__class__.__name__, processed_frame)
 
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                if cv2.waitKey(1) & 0xFF == 27:
                     break
         finally:
             self.cap.release()

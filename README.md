@@ -10,32 +10,6 @@
 - Настраиваемая система через YAML-конфигурацию
 - Логирование с ротацией файлов
 
-## Установка
-
-### Клонирование репозитория
-```bash
-git clone <repository-url>
-cd smart_parking
-```
-
-### Создание виртуального окружения
-```bash
-python -m venv venv
-```
-
-### Установка зависимостей
-```bash
-pip install -r requirements.txt
-```
-
-### Загрузка предобученных моделей
-```bash
-# YOLO модели загружаются автоматически при первом использовании
-# Или загрузите вручную:
-wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt
-wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt
-wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8m.pt
-```
 ## Стурктура проекта
 ```
 smart_parking/
@@ -53,10 +27,28 @@ smart_parking/
 ├── venv/                             # Виртуальное окружение
 └── requirements.txt                  # Зависимости Python
 ```
+## Установка
+
+### Клонирование репозитория
+```bash
+git clone <repository-url>
+cd smart_parking
+```
+
+### Создание виртуального окружения
+```bash
+python -m venv venv
+```
+
+### Установка зависимостей
+```bash
+pip install -r requirements.txt
+```
 ## Быстрый старт
 
 ### 1. Обучение моделей (опционально)
 
+#### Обученные модели находятся в `models/`
 #### При необходимости - обучить модели в папке scripts/learning/:
 
 ```bash

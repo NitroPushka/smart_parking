@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 
-def train_stable_model():
+def train_model():
     model = YOLO("yolov8s.pt")
 
     model.train(
@@ -36,4 +36,4 @@ def train_stable_model():
     )
 
 
-train_stable_model()
+train_model()

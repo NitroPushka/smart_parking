@@ -1,6 +1,11 @@
+import os
+import sys
+
 import torch
 from torch import optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from src.utils.dataloader import create_data_loaders
 from src.classification.parking_classifier import ParkingClassifier
@@ -107,7 +112,7 @@ def train_model(model, train_loader, val_loader, device, epoch=50):
                 total_images = labels.size(0)  # кол-во изображении тек. батча
 
                 epoch_val_loss += (
-                    total_images * loss.item()
+                        total_images * loss.item()
                 )  # общая ошибка = количество изображений * на ошибку одного изображения
                 epoch_val_correct += correct_predictions
                 epoch_val_total += total_images
