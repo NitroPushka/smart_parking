@@ -21,7 +21,6 @@ cd smart_parking
 ### Создание виртуального окружения
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 ### Установка зависимостей
