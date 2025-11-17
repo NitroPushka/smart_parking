@@ -85,7 +85,6 @@ def main():
         except Exception as e:
             print(f"Ошибка выбора режима работы: {e}")
             break
-
 if __name__ == "__main__":
     main()
 
