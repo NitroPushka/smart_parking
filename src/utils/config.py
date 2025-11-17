@@ -9,7 +9,7 @@ class Config:
 
     # Пути к моделям
     CLASSIFIER_MODEL = os.path.join(MODELS_DIR, "parking_classifier.pth")
-    YOLO_MODEL = os.path.join(MODELS_DIR, "runs", "detect", "car_truck_detection_v7", "weights", "best.pt")
+    YOLO_MODEL = os.path.join(MODELS_DIR, "car_truck_detection_v7", "weights", "best.pt")
 
     # Пути к данным
     POLYGON_JSON = os.path.join(DATA_DIR, "dataset_parking", "dataset_car_truck", "parking_zone.json")
