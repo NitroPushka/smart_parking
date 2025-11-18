@@ -6,10 +6,12 @@ class Config:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     DATA_DIR = os.path.join(BASE_DIR, "data")
     MODELS_DIR = os.path.join(BASE_DIR, "models")
+    YOLO_DATASET_PATH = os.path.join(DATA_DIR, "dataset_parking", "dataset_car_truck")
+    YOLO_YAML_PATH = os.path.join(YOLO_DATASET_PATH, "parking.yaml")
 
     # Пути к моделям
     CLASSIFIER_MODEL = os.path.join(MODELS_DIR, "parking_classifier.pth")
-    YOLO_MODEL = os.path.join(MODELS_DIR, "car_truck_detection_v7", "weights", "best.pt")
+    YOLO_MODEL = os.path.join(MODELS_DIR, "car_truck_detection_v819", "weights", "best.pt")
 
     # Пути к данным
     POLYGON_JSON = os.path.join(DATA_DIR, "dataset_parking", "dataset_car_truck", "parking_zone.json")

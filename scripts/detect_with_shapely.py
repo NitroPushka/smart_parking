@@ -18,6 +18,7 @@ class ShapelyDetectionProcessor(VideoProcessor):
 
         # Используем Config для всех параметров
         self.detector = VehicleDetector(Config.YOLO_MODEL)
+        print(f"Используется обученная модель: {Config.YOLO_MODEL}")
 
         with open(Config.POLYGON_JSON) as json_file:
             data = json.load(json_file)

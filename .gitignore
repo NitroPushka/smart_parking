@@ -135,3 +135,6 @@ Thumbs.db
 *.temp
 temp/
 tmp/
+/data/dataset_parking/dataset_car_truck/train/
+/data/dataset_parking/dataset_car_truck/val/
+/data/dataset_parking/dataset_car_truck/val/

@@ -1,4 +1,4 @@
-path: C:/Users/ilyap/PycharmProjects/smart_parking/data/dataset_parking/dataset_car_truck
+path: C:/Users/ilyap/PycharmProjects/smart_parking/data/dataset_parking/dataset_car_truck/
 train: images/train
 val: images/val
 

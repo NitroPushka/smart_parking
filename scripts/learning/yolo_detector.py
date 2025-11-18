@@ -1,12 +1,15 @@
-from ultralytics import YOLO
+import os
 
+from ultralytics import YOLO
+from src.utils.config import Config
 
 def train_model():
-    model = YOLO("yolov8s.pt")
 
+    model = YOLO("yolov8s.pt")
+    data_yaml = os.path.join(Config.DATA_DIR, "dataset_parking","dataset_car_truck","parking.yaml")
     model.train(
-        data="C:/Users/ilyap/PycharmProjects/smart_parking/data/dataset_parking/dataset_car_truck/parking.yaml",
-        epochs=100,
+        data=data_yaml,
+        epochs=50,
         imgsz=416,
         batch=8,
         lr0=0.001,
@@ -32,7 +35,7 @@ def train_model():
         warmup_bias_lr=0.05,
         warmup_momentum=0.8,
         close_mosaic=10,
-        name='car_truck_detection_v7'
+        name='car_truck_detection_v8'
     )
 
 
