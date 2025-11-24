@@ -17,6 +17,7 @@ def train_model():
         device="cpu",
         workers=0,
         augment=True,
+
         degrees=5.0,
         translate=0.05,
         scale=0.2,

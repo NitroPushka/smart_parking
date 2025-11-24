@@ -20,9 +20,7 @@ class Config:
     # Настройки видео
     VIDEO_URL = "http://94.72.19.56/mjpg/video.mjpg"
 
-    # Настройки детекции
     DETECTION_CONF = 0.02
     DETECTION_IOU = 0.4
 
-    # Настройки классификации
     CLASSIFICATION_CONFIDENCE_THRESHOLD = 0.65

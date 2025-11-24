@@ -5,6 +5,8 @@ import torch
 from torch import optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
+from src.utils.config import Config
+
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from src.utils.dataloader import create_data_loaders
@@ -172,7 +174,7 @@ def plot(train_losses, val_losses, train_accuracies, val_accuracies):
     plt.show()
 
 
-def save_model(model, path="parking_classifier.pth"):
+def save_model(model, path="parking_classifier_v2.pth"):
     """Сохранение обученной модели"""
     torch.save(model.state_dict(), path)
     print(f"Модель сохранена в путь {path}")
@@ -181,8 +183,8 @@ def save_model(model, path="parking_classifier.pth"):
 def main():
     """Обучение классификатора"""
 
-    DATASET_PATH = "/data/dataset_parking/parking_dataset"
-    BATCH_SIZE = 32
+    DATASET_PATH = Config.DATASET_PATH
+    BATCH_SIZE = 8
     EPOCHS = 50
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -207,7 +209,7 @@ def main():
         train_losses, val_losses, train_accuracies, val_accuracies = (
             train_model(model, train_loader, val_loader, device, EPOCHS)
         )
-        save_model(model, "../../models/parking_classifier.pth")
+        save_model(model, "../../models/parking_classifier_v2.pth")
 
         print("Строим графики")
         plot(train_losses, val_losses, train_accuracies, val_accuracies)

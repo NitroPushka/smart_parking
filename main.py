@@ -1,8 +1,6 @@
 import os
 import sys
 
-import subprocess
-
 def print_menu():
     print("\t ====== Добро пожаловать в основное меню Smart Parking Detection System ====== ")
     print("-"*50)
@@ -11,7 +9,7 @@ def print_menu():
     print("2 - Обучение CNN-классификатора с новыми весами")
     print("-"*50)
     print("\t Запуск готовых решении")
-    print("3 - Запуск YOLO детектора с Shapely парковкой")
+    print("3 - Запуск YOLO детектора с Shapely")
     print("4 - Запуск классификатора")
     print("5 - exit")
 
@@ -78,6 +76,7 @@ def main():
                 print("Неизвестное значение! Попробуйте снова!")
                 break
             print("\n" + "="*50)
+
             cont = input("Вернуться в меню? (y/n): ").strip().lower()
             if cont != 'y':
                 print("До свидания!")
