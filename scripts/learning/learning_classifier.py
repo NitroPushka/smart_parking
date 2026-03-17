@@ -185,7 +185,7 @@ def main():
 
     DATASET_PATH = Config.DATASET_PATH
     BATCH_SIZE = 8
-    EPOCHS = 50
+    EPOCHS = 30
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Задействовано устройство: {device}")
