@@ -110,9 +110,9 @@ logs/
 *.log
 models/*.pt
 output/
-runs/
-data/raw_images/
-data/annotations/
+parking_engine/runs/
+parking_engine/data/raw_images/
+parking_engine/data/annotations/
 *.jpg
 *.png
 *.jpeg
@@ -135,6 +135,6 @@ Thumbs.db
 *.temp
 temp/
 tmp/
-/data/dataset_parking/dataset_car_truck/train/
-/data/dataset_parking/dataset_car_truck/val/
-/data/dataset_parking/dataset_car_truck/val/
+/parking_engine/data/dataset_parking/dataset_car_truck/train/
+/parking_engine/data/dataset_parking/dataset_car_truck/val/
+/parking_engine/data/dataset_parking/dataset_car_truck/val/

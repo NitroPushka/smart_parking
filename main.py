@@ -16,7 +16,7 @@ def print_menu():
 def training_detection():
     print("Запуск обучения YOLO детектора...")
     try:
-        from scripts.learning.yolo_detector import train_model as train_model
+        from parking_engine.scripts.learning.yolo_detector import train_model as train_model
         train_model()
     except Exception as e:
         print(f"Произошла ошибка при обучении детектора: {e}")
@@ -26,7 +26,7 @@ def training_detection():
 def training_cnn():
     print("Запуск обучения классификатора...")
     try:
-        from scripts.learning.learning_classifier import main as train_model
+        from parking_engine.scripts.learning import main as train_model
         train_model()
     except Exception as e:
         print(f"Произошла ошибка при обучении классификатора: {e}")
@@ -36,7 +36,7 @@ def training_cnn():
 def detector():
     print("Запуск YOLO детектора...")
     try:
-        from scripts.detect_with_shapely import main as main_detector
+        from parking_engine.scripts.detect_with_shapely import main as main_detector
         main_detector()
     except Exception as e:
         print(f"Произошла ошибка при обучении классификатора: {e}")
@@ -46,7 +46,7 @@ def detector():
 def classifier():
     print("Запуск CNN-классификатора...")
     try:
-        from scripts.classifier_live import main as main_classifier
+        from parking_engine.scripts.classifier_live import main as main_classifier
         main_classifier()
     except Exception as e:
         print(f"Произошла ошибка при обучении классификатора: {e}")
