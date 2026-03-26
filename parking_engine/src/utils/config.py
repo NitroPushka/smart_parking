@@ -14,7 +14,9 @@ class Config:
     YOLO_MODEL = os.path.join(MODELS_DIR, "car_truck_detection_v819", "weights", "best.pt")
 
     # Пути к данным
-    POLYGON_JSON = os.path.join(DATA_DIR, "dataset_parking", "dataset_car_truck", "parking_zone.json")
+    POLYGON_JSON = os.path.join(
+        DATA_DIR, "dataset_parking", "dataset_car_truck", "parking_zone.json"
+    )
     DATASET_PATH = os.path.join(DATA_DIR, "dataset_parking", "parking_dataset")
 
     # Настройки видео

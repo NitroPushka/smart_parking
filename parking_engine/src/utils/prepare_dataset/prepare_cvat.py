@@ -29,5 +29,3 @@ while camera.isOpened() and saved_count < count_pictures:
     frame_count += 1
 camera.release()
 print(f"Done saving {saved_count} images")
-
-

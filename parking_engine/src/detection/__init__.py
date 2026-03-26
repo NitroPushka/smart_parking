@@ -1,3 +1,3 @@
 from .vehicle_detector import VehicleDetector
 
-__all__ = ['VehicleDetector']
+__all__ = ["VehicleDetector"]
