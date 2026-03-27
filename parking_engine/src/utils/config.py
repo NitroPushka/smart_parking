@@ -10,7 +10,7 @@ class Config:
     YOLO_YAML_PATH = os.path.join(YOLO_DATASET_PATH, "parking.yaml")
 
     # Пути к моделям
-    CLASSIFIER_MODEL = os.path.join(MODELS_DIR, "parking_classifier.pth")
+    CLASSIFIER_MODEL = os.path.join(MODELS_DIR, "parking_classifier_v2.pth")
     YOLO_MODEL = os.path.join(MODELS_DIR, "car_truck_detection_v819", "weights", "best.pt")
 
     # Пути к данным

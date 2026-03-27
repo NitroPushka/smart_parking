@@ -1,4 +1,3 @@
-# tests/test_geometry.py
 import json
 import numpy as np
 from parking_engine.src.geometry.polygon_manager import PolygonManager

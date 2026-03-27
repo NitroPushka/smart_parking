@@ -139,3 +139,5 @@ tmp/
 /parking_engine/data/dataset_parking/dataset_car_truck/train/
 /parking_engine/data/dataset_parking/dataset_car_truck/val/
 /parking_engine/data/dataset_parking/dataset_car_truck/val/
+/parking_engine/models/runs/
+/parking_engine/models/car_truck_detection_v7/

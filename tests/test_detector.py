@@ -1,4 +1,3 @@
-# tests/test_detect_with_shapely.py
 import json
 import numpy as np
 import pytest
@@ -22,7 +21,7 @@ def test_shapely_detection_processor_stub(tmp_path, dummy_frame):
             {
                 "category_id": 1,
                 "image_id": 1,
-                "segmentation": [[10, 10, 20, 10, 20, 20, 10, 20]]  # квадрат
+                "segmentation": [[10, 10, 20, 10, 20, 20, 10, 20]]
             }
         ]
     }
@@ -30,8 +29,8 @@ def test_shapely_detection_processor_stub(tmp_path, dummy_frame):
     json_file.write_text(json.dumps(test_polygons))
 
     with patch('parking_engine.scripts.detect_with_shapely.Config') as mock_config:
-        mock_config.VIDEO_URL = "dummy_video"
-        mock_config.YOLO_MODEL = "dummy_model.pt"
+        mock_config.VIDEO_URL = "mock_video"
+        mock_config.YOLO_MODEL = "mock_model.pt"
         mock_config.POLYGON_JSON = str(json_file)
         mock_config.CLASSIFICATION_CONFIDENCE_THRESHOLD = 0.5
 
