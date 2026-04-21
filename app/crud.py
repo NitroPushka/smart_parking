@@ -55,3 +55,64 @@ def delete_parking_lot(db: Session, lot_id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def create_analysis_task(db: Session, task_id: str, lot_id: int, image_path: str):
+    db_task = models.AnalysisTask(
+        task_id=task_id,
+        lot_id=lot_id,
+        image_path=image_path,
+        status="queued",
+    )
+    db.add(db_task)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+
+def get_analysis_task(db: Session, task_id: str):
+    return db.query(models.AnalysisTask).filter(models.AnalysisTask.task_id == task_id).first()
+
+
+def get_analysis_results(db: Session, task_id: str):
+    return (
+        db.query(models.AnalysisResult)
+        .filter(models.AnalysisResult.task_id == task_id)
+        .order_by(models.AnalysisResult.id.asc())
+        .all()
+    )
+
+
+def update_analysis_task_status(
+    db: Session,
+    task_id: str,
+    status: str,
+    result=None,
+    error_message: str | None = None,
+):
+    db_task = get_analysis_task(db, task_id)
+    if not db_task:
+        return None
+
+    db_task.status = status
+    db_task.result = result
+    db_task.error_message = error_message
+
+    db.query(models.AnalysisResult).filter(
+        models.AnalysisResult.task_id == task_id
+    ).delete(synchronize_session=False)
+
+    if result:
+        for item in result:
+            db.add(
+                models.AnalysisResult(
+                    task_id=task_id,
+                    spot_id=item["spot_id"],
+                    spot_number=item["spot_number"],
+                    status=item["status"],
+                )
+            )
+
+    db.commit()
+    db.refresh(db_task)
+    return db_task

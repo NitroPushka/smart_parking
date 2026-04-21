@@ -1,4 +1,12 @@
+import os
+from pathlib import Path
+
 from shapely.geometry import box
+
+ultralytics_config_dir = Path(__file__).resolve().parents[3] / ".ultralytics"
+ultralytics_config_dir.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("YOLO_CONFIG_DIR", str(ultralytics_config_dir))
+
 from ultralytics import YOLO
 
 class VehicleDetector:

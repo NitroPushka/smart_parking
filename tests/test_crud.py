@@ -1,5 +1,4 @@
 from fastapi import status
-import pytest
 
 def test_create_parking_lot(client):
     response = client.post(
@@ -28,7 +27,6 @@ def test_read_parking_lot_not_found(client):
     response = client.get("/parking-lots/999")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-@pytest.mark.skip(reason="POST /spots endpoint not implemented yet")
 def test_create_parking_spot(client, test_lot):
     spot_data = {
         "lot_id": test_lot,

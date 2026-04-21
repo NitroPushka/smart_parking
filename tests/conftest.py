@@ -2,6 +2,8 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
+from pathlib import Path
+from uuid import uuid4
 from app.main import app
 from app.database import Base, get_db
 
@@ -9,6 +11,13 @@ TEST_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(TEST_DATABASE_URL)
 TestingSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+@pytest.fixture
+def tmp_path():
+    path = Path("pytest_artifacts") / str(uuid4())
+    path.mkdir(parents=True, exist_ok=True)
+    yield path
 
 @pytest.fixture(scope="session")
 def db_engine():

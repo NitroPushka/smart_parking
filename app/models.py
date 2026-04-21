@@ -27,3 +27,37 @@ class ParkingSpot(Base):
 
     # Обратная связь к парковке
     lot = relationship("ParkingLot", back_populates="spots")
+
+
+class AnalysisTask(Base):
+    __tablename__ = "analysis_tasks"
+
+    task_id = Column(String, primary_key=True, index=True)
+    lot_id = Column(Integer, ForeignKey("parking_lots.id"), nullable=False)
+    image_path = Column(String, nullable=False)
+    status = Column(String, nullable=False, default="queued")
+    result = Column(JSON, nullable=True)
+    error_message = Column(String, nullable=True)
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+
+    lot = relationship("ParkingLot")
+    analysis_results = relationship(
+        "AnalysisResult",
+        back_populates="task",
+        cascade="all, delete-orphan",
+    )
+
+
+class AnalysisResult(Base):
+    __tablename__ = "analysis_results"
+
+    id = Column(Integer, primary_key=True, index=True)
+    task_id = Column(String, ForeignKey("analysis_tasks.task_id"), nullable=False, index=True)
+    spot_id = Column(Integer, ForeignKey("parking_spots.id"), nullable=False)
+    spot_number = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+    task = relationship("AnalysisTask", back_populates="analysis_results")
+    spot = relationship("ParkingSpot")
