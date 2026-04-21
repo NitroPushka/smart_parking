@@ -49,6 +49,12 @@ class ParkingSpot(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class ParkingSpotsImportResponse(BaseModel):
+    lot_id: int
+    imported_spots: int
+    image_id: int
+
+
 class AnalysisTaskCreateResponse(BaseModel):
     task_id: str
     status: str

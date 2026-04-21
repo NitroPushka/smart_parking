@@ -19,6 +19,15 @@ def create_parking_spot(db: Session, spot: schemas.ParkingSpotCreate):
     db.refresh(db_spot)
     return db_spot
 
+
+def create_parking_spots(db: Session, spots: list[schemas.ParkingSpotCreate]):
+    db_spots = [models.ParkingSpot(**spot.model_dump()) for spot in spots]
+    db.add_all(db_spots)
+    db.commit()
+    for db_spot in db_spots:
+        db.refresh(db_spot)
+    return db_spots
+
 def get_parking_spots_by_lot(db: Session, lot_id: int, skip: int = 0, limit: int = 100):
     return db.query(models.ParkingSpot).filter(models.ParkingSpot.lot_id == lot_id).offset(skip).limit(limit).all()
 
@@ -55,6 +64,16 @@ def delete_parking_lot(db: Session, lot_id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def delete_parking_spots_by_lot(db: Session, lot_id: int) -> int:
+    deleted = (
+        db.query(models.ParkingSpot)
+        .filter(models.ParkingSpot.lot_id == lot_id)
+        .delete(synchronize_session=False)
+    )
+    db.commit()
+    return deleted
 
 
 def create_analysis_task(db: Session, task_id: str, lot_id: int, image_path: str):

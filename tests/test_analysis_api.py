@@ -43,6 +43,50 @@ def test_create_analysis_task(client, test_lot, monkeypatch, tmp_path):
     assert saved_file.exists()
 
 
+def test_create_analysis_task_with_polygon_json(client, db_session, test_lot, monkeypatch, tmp_path):
+    import app.main as app_main
+
+    calls = []
+    polygon_json = """
+    {
+      "images": [{"id": 1, "file_name": "parking.jpg"}],
+      "annotations": [
+        {
+          "id": 1,
+          "image_id": 1,
+          "category_id": 1,
+          "segmentation": [[0, 0, 100, 0, 100, 100, 0, 100]]
+        }
+      ]
+    }
+    """
+
+    def fake_send_task(name, args=None, task_id=None, **kwargs):
+        calls.append({"name": name, "args": args, "task_id": task_id})
+
+    monkeypatch.setattr(app_main, "upload_dir", tmp_path)
+    monkeypatch.setattr(app_main.celery_app, "send_task", fake_send_task)
+
+    response = client.post(
+        "/analyses",
+        data={"lot_id": str(test_lot)},
+        files={
+            "image": ("parking.jpg", b"fake-image-content", "image/jpeg"),
+            "polygons_file": ("parking_zone.json", polygon_json.encode("utf-8"), "application/json"),
+        },
+    )
+
+    assert response.status_code == 202
+    data = response.json()
+    assert data["status"] == "queued"
+    assert len(calls) == 1
+
+    saved_spots = crud.get_parking_spots_by_lot(db_session, test_lot)
+    assert len(saved_spots) == 1
+    assert saved_spots[0].spot_number == "P1"
+    assert saved_spots[0].polygon == [[0.0, 0.0], [100.0, 0.0], [100.0, 100.0], [0.0, 100.0]]
+
+
 def test_get_analysis_task_result(client, db_session, test_lot, monkeypatch, tmp_path):
     import app.main as app_main
 

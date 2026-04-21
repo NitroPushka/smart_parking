@@ -15,6 +15,7 @@
 - в `docker-compose.yml` поднимаются `api`, `db`, `redis`, `worker`;
 - Celery настроен на Redis;
 - `POST /analyses` ставит задачу в очередь;
+- `POST /parking-lots/{lot_id}/spots/import` импортирует парковочные места из JSON;
 - `GET /analyses/{task_id}` возвращает статус и результаты;
 - результаты анализа сохраняются в отдельную таблицу `analysis_results`;
 - для API и фоновой обработки есть автотесты.
@@ -22,7 +23,7 @@
 ## Как это работает
 
 1. Клиент создаёт парковку и парковочные места.
-2. Клиент отправляет изображение в `POST /analyses`.
+2. Клиент либо импортирует полигоны из JSON, либо отправляет JSON сразу вместе с изображением в `POST /analyses`.
 3. API сохраняет файл, создаёт запись в `analysis_tasks`, отправляет `task_id` в Redis через Celery и сразу отвечает `202 Accepted`.
 4. Celery worker получает задачу, запускает детекцию машин и определяет статус каждого места.
 5. Результаты сохраняются в таблицу `analysis_results`, а задача получает статус `completed` или `failed`.
@@ -102,12 +103,41 @@ curl.exe -X POST "http://localhost:8000/spots" `
   -d "{\"lot_id\":1,\"spot_number\":\"A2\",\"polygon\":[[110,0],[210,0],[210,100],[110,100]],\"status\":\"free\"}"
 ```
 
+### 2a. Вместо ручного создания мест импортировать полигоны из JSON
+
+Если у вас уже есть `parking_zone.json` в COCO-подобном формате, можно не создавать `spots` вручную:
+
+```powershell
+curl.exe -X POST "http://localhost:8000/parking-lots/1/spots/import" `
+  -F "replace_existing=true" `
+  -F "polygons_file=@C:\full\path\to\parking_zone.json"
+```
+
+Ожидаемый ответ:
+
+```json
+{
+  "lot_id": 1,
+  "imported_spots": 28,
+  "image_id": 1
+}
+```
+
 ### 3. Поставить задачу на анализ
 
 ```powershell
 curl.exe -X POST "http://localhost:8000/analyses" `
   -F "lot_id=1" `
   -F "image=@C:\full\path\to\parking.jpg"
+```
+
+Если хотите в одном запросе и загрузить JSON, и сразу запустить анализ:
+
+```powershell
+curl.exe -X POST "http://localhost:8000/analyses" `
+  -F "lot_id=1" `
+  -F "image=@C:\full\path\to\parking.jpg" `
+  -F "polygons_file=@C:\full\path\to\parking_zone.json"
 ```
 
 Ожидаемый ответ:
